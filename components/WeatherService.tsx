@@ -8,8 +8,17 @@ class WeatherService {
   static async getStation(city: string) {
     // for the sake ov saving time, don't create types for the station response
     const response = await fetch(`https://api.weather.gov/stations?limit=500`, { cache: "no-store" });
+
+    //TODO - to save time, check response. If time allowed, create an interceptor service and check/log responses there.
+    if (response.status != 200) {
+      Logger.Error(`Error getting station: ${response.statusText}`);
+      return [];
+    }
+
     const result = await response.json();
+
     let station = "";
+
     for (const feature of result.features) {
       if (feature.properties.name.includes(city)) {
         station = feature.properties.stationIdentifier;
@@ -25,11 +34,16 @@ class WeatherService {
 
       // use no-store option else next throws errors because the response is too large
       const response = await fetch(`https://api.weather.gov/stations/${station}/observations`, { cache: "no-store" });
+
+      //TODO - to save time, check response. If time allowed, create an interceptor service and check/log responses there.
+      if (response.status != 200) {
+        Logger.Error(`Error getting temperatures: ${response.statusText}`);
+        return [];
+      }
+
       const result: IFeatureCollection = await response.json();
       const dailyTemps = this.getMinMaxForEachDay(result);
-      if (response.status != 200) {
-        Logger.Error(response.statusText);
-      }
+
       return dailyTemps;
     } catch (ex) {
       Logger.Error(ex);
