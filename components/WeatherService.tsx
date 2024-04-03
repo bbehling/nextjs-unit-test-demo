@@ -73,6 +73,7 @@ class WeatherService {
 
         prevDate = date;
       }
+
       temperatures.forEach((x, i) => {
         if (x.dayOfWeek === date) {
           if (temp !== null && temp < x.min) {
