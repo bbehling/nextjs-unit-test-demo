@@ -5,7 +5,7 @@ import { IDailyTemperature } from "@/Models/IDailyTemperature";
 class WeatherService {
   //https://api.weather.gov/stations?state=CO&limit=500
 
-  static async GetStation(city: string) {
+  static async getStation(city: string) {
     // for the sake ov saving time, don't create types for the station response
     const response = await fetch(`https://api.weather.gov/stations?limit=500`, { cache: "no-store" });
     const result = await response.json();
@@ -19,14 +19,14 @@ class WeatherService {
     return station;
   }
 
-  static GetDailyTemperatures = async (city: string) => {
+  static getDailyTemperatures = async (city: string) => {
     try {
-      const station = await this.GetStation(city);
+      const station = await this.getStation(city);
 
       // use no-store option else next throws errors because the response is too large
       const response = await fetch(`https://api.weather.gov/stations/${station}/observations`, { cache: "no-store" });
       const result: IFeatureCollection = await response.json();
-      const dailyTemps = this.GetMinMaxForEachDay(result);
+      const dailyTemps = this.getMinMaxForEachDay(result);
       if (response.status != 200) {
         Logger.Error(response.statusText);
       }
@@ -36,7 +36,7 @@ class WeatherService {
     }
   };
 
-  static GetMinMaxForEachDay = (featureCollection: IFeatureCollection) => {
+  static getMinMaxForEachDay = (featureCollection: IFeatureCollection) => {
     let temperatures: IDailyTemperature[] = [];
     temperatures.push({
       dayOfWeek: new Date(featureCollection.features[0].properties.timestamp).getDay(),
@@ -76,7 +76,7 @@ class WeatherService {
     return temperatures;
   };
 
-  static ConvertToFahrenheit = (c: number) => {
+  static convertToFahrenheit = (c: number) => {
     const f = (c * 9) / 5 + 32;
     return Math.round(f * 100) / 100;
   };

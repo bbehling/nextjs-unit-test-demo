@@ -33,7 +33,7 @@ features.push({
 const featuresCollection = { features: features };
 
 describe("Should Get Weather", () => {
-  test("GetWeather should return an array greater than 0", async () => {
+  test("GetWeather should return an array equal to 2", async () => {
     //Mock fetch so we aren't making a data request
     global.fetch = jest.fn(() =>
       Promise.resolve({
@@ -42,7 +42,7 @@ describe("Should Get Weather", () => {
       })
     );
 
-    const result = await WeatherService.GetDailyTemperatures("Montford Middle");
+    const result = await WeatherService.getDailyTemperatures("Montford Middle");
 
     expect(result.length).toBe(2);
   });
@@ -55,7 +55,7 @@ describe("Should Not Get Weather", () => {
     //Mock a fetch error response
     global.fetch = jest.fn(() => Promise.reject(""));
 
-    const result = await WeatherService.GetDailyTemperatures("dummyStation");
+    const result = await WeatherService.getDailyTemperatures("dummyStation");
 
     expect(spy).toHaveBeenCalled();
   });
@@ -65,7 +65,7 @@ describe("Should Get Min and Max Temperatures", () => {
   test("GetMinMaxForEachDay() should return the proper min and max values for given days", async () => {
     const mockResult = `[{"dayOfWeek":2,"max":23,"min":15,"date":"2024-04-02T23:00:00.000Z"},{"dayOfWeek":1,"max":24,"min":24,"date":"2024-04-02T05:40:00.000Z"}]`;
 
-    const result = await WeatherService.GetMinMaxForEachDay(featuresCollection);
+    const result = await WeatherService.getMinMaxForEachDay(featuresCollection);
     const json = JSON.stringify(result);
 
     expect(json).toBe(mockResult);
@@ -73,12 +73,12 @@ describe("Should Get Min and Max Temperatures", () => {
 });
 
 describe("Should Convert Celsius to Fahrenheit", () => {
-  test("GetMinMaxForEachDay() should return the proper min and max values for given days", async () => {
+  test("convertToFahrenheit() should convert", async () => {
     const spy = jest.spyOn(Logger, "Error");
 
     const c = 23;
     const f = 73.4;
-    const result = await WeatherService.ConvertToFahrenheit(c);
+    const result = await WeatherService.convertToFahrenheit(c);
 
     expect(result).toBe(f);
   });

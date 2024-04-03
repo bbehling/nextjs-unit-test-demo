@@ -3,7 +3,7 @@ import { IDailyTemperature } from "@/Models/IDailyTemperature";
 
 export default async function Home() {
   const city = "Montford Middle";
-  const temps = await WeatherService.GetDailyTemperatures(city);
+  const temps = await WeatherService.getDailyTemperatures(city);
   return (
     <>
       <h3 className="p-5">{`Daily High and Low Temps for: ${city}`}</h3>
@@ -12,10 +12,10 @@ export default async function Home() {
           <div key={i} className="temperatureWrapper">
             <h2 className={`text-2xl font-semibold`}>{temp.date.toDateString()}</h2>
             <p className={`m-0 max-w-[30ch] text-sm text-balance`}>
-              Min Temperature: {WeatherService.ConvertToFahrenheit(temp.min)}
+              Min Temperature: {WeatherService.convertToFahrenheit(temp.min)}
             </p>
             <p className={`m-0 max-w-[30ch] text-sm text-balance`}>
-              Max Temperature: {WeatherService.ConvertToFahrenheit(temp.max)}
+              Max Temperature: {WeatherService.convertToFahrenheit(temp.max)}
             </p>
           </div>
         ))}
