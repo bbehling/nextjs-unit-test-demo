@@ -4,7 +4,7 @@ import { IDailyTemperature } from "@/Models/IDailyTemperature";
 
 class WeatherService {
   static async getStation(city: string) {
-    // for the sake ov saving time, don't create types for the station response
+    // for the sake of saving time, don't create types for the station response
     const response = await fetch(`https://api.weather.gov/stations?limit=500`, { cache: "no-store" });
 
     //TODO - to save time, check response here. If time allowed, create an interceptor service and check/log responses there.
