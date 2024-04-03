@@ -1,4 +1,3 @@
-import { render, screen } from "@testing-library/react";
 import WeatherService from "../components/WeatherService";
 import Logger from "../components/Logger";
 

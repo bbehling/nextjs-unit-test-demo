@@ -32,7 +32,7 @@ class WeatherService {
     try {
       const station = await this.getStation(city);
 
-      // use no-store option else next throws errors because the response is too large
+      // use no-store option else Next throws errors because the response is too large
       const response = await fetch(`https://api.weather.gov/stations/${station}/observations`, { cache: "no-store" });
 
       //TODO - to save time, check response here. If time allowed, create an interceptor service and check/log responses there.
