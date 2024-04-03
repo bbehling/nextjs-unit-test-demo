@@ -3,8 +3,6 @@ import Logger from "./Logger";
 import { IDailyTemperature } from "@/Models/IDailyTemperature";
 
 class WeatherService {
-  //https://api.weather.gov/stations?state=CO&limit=500
-
   static async getStation(city: string) {
     // for the sake ov saving time, don't create types for the station response
     const response = await fetch(`https://api.weather.gov/stations?limit=500`, { cache: "no-store" });
